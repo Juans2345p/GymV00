@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>Usuarios</h1>
+{% if request.session.is_admin %}<a class="btn btn-primary mb-3" href="{% url 'usuario_create' %}">Nuevo usuario</a>{% endif %}
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Nombre</th><th>Admin</th><th></th></tr></thead>
+  <tbody>
+  {% for item in items %}
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.nombre }}</td>
+      <td>{{ item.admin }}</td>
+      <td>
+        <a class="btn btn-sm btn-info" href="{% url 'usuario_detail' item.id %}">Ver</a>
+        {% if request.session.is_admin %}<a class="btn btn-sm btn-danger" href="{% url 'usuario_delete' item.id %}">Eliminar</a>{% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Sin usuarios</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

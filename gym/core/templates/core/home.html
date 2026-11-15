@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body text-center">
+    <h3>Tu racha</h3>
+    <div style="font-size:4rem; line-height:1;">
+      {% if mi_racha and mi_racha > 0 %}
+        <span style="filter: none;">🔥</span>
+      {% else %}
+        <span style="filter: grayscale(1); opacity:0.4;">🔥</span>
+      {% endif %}
+    </div>
+    <h2 class="mt-2">{{ mi_racha }}</h2>
+    <p class="text-muted">veces que has pasado el carnet</p>
+  </div>
+</div>
+
+{% if request.session.is_admin %}
+<h1>Usuarios del Gym</h1>
+<a class="btn btn-primary mb-3" href="{% url 'usuario_create' %}">Nuevo usuario</a>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Nombre</th><th>Admin</th><th></th></tr></thead>
+  <tbody>
+  {% for u in usuarios %}
+    <tr>
+      <td>{{ u.id }}</td>
+      <td>{{ u.nombre }}</td>
+      <td>{{ u.admin }}</td>
+      <td><a href="{% url 'usuario_detail' u.id %}">Ver</a></td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Sin usuarios</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<h3>Tus ultimas rachas</h3>
+<ul>
+  {% for r in mis_rachas %}<li>{{ r.registro }}</li>{% empty %}<li>Sin rachas aun</li>{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>{{ item.nombre }}</h1>
+<p>ID: {{ item.id }}</p>
+<p>Admin: {{ item.admin }}</p>
+<h3>Mensualidades</h3>
+<ul>
+  {% for m in item.mensualidades.all %}<li>{{ m.expira }}</li>{% endfor %}
+</ul>
+<h3>Rachas</h3>
+<ul>
+  {% for r in item.rachas.all %}<li>{{ r.registro }}</li>{% endfor %}
+</ul>
+<h3>Identificaciones</h3>
+<ul>
+  {% for i in item.identificaciones.all %}<li>{{ i.nfc.uid }}</li>{% endfor %}
+</ul>
+{% endblock %}

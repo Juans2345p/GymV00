@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>Configuracion MQTT</h1>
+<p>Estado: <strong id="st">{{ status.running }}</strong> {% if status.error %}(error: {{ status.error }}){% endif %} Ultimo UID: {{ status.last_uid }}</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success" name="start" value="1" type="submit">Guardar e iniciar</button>
+  <button class="btn btn-danger" name="stop" value="1" type="submit">Detener</button>
+  <button class="btn btn-warning" name="toggle_racha" value="1" type="submit">Duplicar racha: {% if cfg.duplicar_racha %}ACTIVADO (varias por dia){% else %}DESACTIVADO (una por dia){% endif %}</button>
+</form>
+<script>
+setInterval(()=>fetch('{% url "mqtt_status" %}').then(r=>r.json()).then(d=>{
+  document.getElementById('st').textContent = d.running;
+}), 3000);
+</script>
+{% endblock %}
