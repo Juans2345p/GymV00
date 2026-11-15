@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
-from django.views.generic import ListView, CreateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 from django.db.models import Count
 from .models import NfcCard, Usuario, Identificacion, Mensualidad, Racha, MqttConfig
 from .forms import (NfcCardForm, UsuarioForm, IdentificacionForm,
@@ -67,6 +67,13 @@ class NfcCreateView(AdminRequiredMixin, CreateView):
     success_url = reverse_lazy('nfc_list')
 
 
+class NfcUpdateView(AdminRequiredMixin, UpdateView):
+    model = NfcCard
+    form_class = NfcCardForm
+    template_name = 'core/form.html'
+    success_url = reverse_lazy('nfc_list')
+
+
 class NfcDeleteView(AdminRequiredMixin, DeleteView):
     model = NfcCard
     template_name = 'core/confirm_delete.html'
@@ -91,6 +98,27 @@ class UsuarioCreateView(AdminRequiredMixin, CreateView):
     form_class = UsuarioForm
     template_name = 'core/form.html'
     success_url = reverse_lazy('usuario_list')
+
+
+class UsuarioUpdateView(LoginRequiredMixin, UpdateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'core/form.html'
+    success_url = reverse_lazy('usuario_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        uid = request.session.get('usuario_id')
+        if not uid:
+            return redirect('login')
+        self.current_usuario = Usuario.objects.filter(id=uid).first()
+        if not self.current_usuario:
+            request.session.flush()
+            return redirect('login')
+        # non-admin only own
+        pk = kwargs.get('pk')
+        if self.current_usuario.admin != 1 and str(pk) != str(self.current_usuario.id):
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UsuarioDetailView(LoginRequiredMixin, DetailView):
@@ -138,6 +166,13 @@ class IdentificacionCreateView(AdminRequiredMixin, CreateView):
     success_url = reverse_lazy('identificacion_list')
 
 
+class IdentificacionUpdateView(AdminRequiredMixin, UpdateView):
+    model = Identificacion
+    form_class = IdentificacionForm
+    template_name = 'core/form.html'
+    success_url = reverse_lazy('identificacion_list')
+
+
 class IdentificacionDeleteView(AdminRequiredMixin, DeleteView):
     model = Identificacion
     template_name = 'core/confirm_delete.html'
@@ -164,6 +199,13 @@ class MensualidadCreateView(AdminRequiredMixin, CreateView):
     success_url = reverse_lazy('mensualidad_list')
 
 
+class MensualidadUpdateView(AdminRequiredMixin, UpdateView):
+    model = Mensualidad
+    form_class = MensualidadForm
+    template_name = 'core/form.html'
+    success_url = reverse_lazy('mensualidad_list')
+
+
 class MensualidadDeleteView(AdminRequiredMixin, DeleteView):
     model = Mensualidad
     template_name = 'core/confirm_delete.html'
@@ -184,6 +226,13 @@ class RachaListView(LoginRequiredMixin, ListView):
 
 
 class RachaCreateView(AdminRequiredMixin, CreateView):
+    model = Racha
+    form_class = RachaForm
+    template_name = 'core/form.html'
+    success_url = reverse_lazy('racha_list')
+
+
+class RachaUpdateView(AdminRequiredMixin, UpdateView):
     model = Racha
     form_class = RachaForm
     template_name = 'core/form.html'

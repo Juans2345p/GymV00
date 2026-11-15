@@ -10,7 +10,7 @@
       <td>{{ item.id }}</td>
       <td>{{ item.usuario.nombre }}</td>
       <td>{{ item.registro }}</td>
-      <td>{% if request.session.is_admin %}<a class="btn btn-sm btn-danger" href="{% url 'racha_delete' item.id %}">Eliminar</a>{% endif %}</td>
+      <td>{% if request.session.is_admin %}<a class="btn btn-sm btn-warning" href="{% url 'racha_edit' item.id %}">Editar</a> <a class="btn btn-sm btn-danger" href="{% url 'racha_delete' item.id %}">Eliminar</a>{% endif %}</td>
     </tr>
   {% empty %}
     <tr><td colspan="4">Sin rachas</td></tr>

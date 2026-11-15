@@ -12,6 +12,7 @@
       <td>{{ item.admin }}</td>
       <td>
         <a class="btn btn-sm btn-info" href="{% url 'usuario_detail' item.id %}">Ver</a>
+        {% if request.session.is_admin or request.session.usuario_id == item.id %}<a class="btn btn-sm btn-warning" href="{% url 'usuario_edit' item.id %}">Editar</a>{% endif %}
         {% if request.session.is_admin %}<a class="btn btn-sm btn-danger" href="{% url 'usuario_delete' item.id %}">Eliminar</a>{% endif %}
       </td>
     </tr>
