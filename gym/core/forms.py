@@ -87,5 +87,6 @@ class RachaForm(forms.ModelForm):
 class MqttConfigForm(forms.ModelForm):
     class Meta:
         model = MqttConfig
-        fields = ['host', 'port', 'username', 'password', 'topic', 'enabled', 'duplicar_racha']
+        fields = ['host', 'port', 'username', 'password', 'topic', 'enabled', 'duplicar_racha',
+                  'regalo_mensualidad', 'zona_horaria']
         widgets = {'password': forms.PasswordInput(render_value=True)}

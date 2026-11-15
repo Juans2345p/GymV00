@@ -31,6 +31,12 @@ def _on_message(client, userdata, msg):
     except Exception:
         cfg = userdata['config']
     try:
+        from django.utils import timezone as djtz
+        if getattr(cfg, 'zona_horaria', None):
+            djtz.activate(cfg.zona_horaria)
+    except Exception:
+        pass
+    try:
         payload = msg.payload.decode('utf-8', errors='ignore').strip()
         uid = int(payload)  # numero decimal
     except (ValueError, UnicodeDecodeError):

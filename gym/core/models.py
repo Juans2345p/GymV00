@@ -7,8 +7,10 @@ class MqttConfig(models.Model):
     username = models.CharField(max_length=255, blank=True, default='')
     password = models.CharField(max_length=255, blank=True, default='')
     topic = models.CharField(max_length=255, default='gym')
-    enabled = models.BooleanField(default=True)
+    enabled = models.BooleanField(default=False)
     duplicar_racha = models.BooleanField(default=False, verbose_name='Permitir duplicar racha (varias por dia)')
+    regalo_mensualidad = models.BooleanField(default=True, verbose_name='Dar 1 dia de mensualidad a nuevos usuarios')
+    zona_horaria = models.CharField(max_length=50, default='UTC', verbose_name='Zona horaria')
 
     class Meta:
         db_table = 'mqtt_config'

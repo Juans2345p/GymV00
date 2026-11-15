@@ -99,6 +99,11 @@ class UsuarioCreateView(AdminRequiredMixin, CreateView):
     template_name = 'core/form.html'
     success_url = reverse_lazy('usuario_list')
 
+    def form_valid(self, form):
+        r = super().form_valid(form)
+        _regalo_mensualidad(self.object)
+        return r
+
 
 class UsuarioUpdateView(LoginRequiredMixin, UpdateView):
     model = Usuario
@@ -306,6 +311,17 @@ def top_view(request):
     return render(request, 'core/top.html', {'ranking': ranking})
 
 
+def _regalo_mensualidad(usuario):
+    try:
+        cfg = MqttConfig.get_config()
+    except Exception:
+        cfg = None
+    if cfg is not None and getattr(cfg, 'regalo_mensualidad', True):
+        from django.utils import timezone
+        from datetime import timedelta
+        Mensualidad.objects.create(usuario=usuario, expira=timezone.now() + timedelta(days=1))
+
+
 def registro_view(request):
     error = None
     if request.method == 'POST':
@@ -316,6 +332,7 @@ def registro_view(request):
         elif Usuario.objects.filter(nombre=nombre).exists():
             error = 'El usuario ya existe'
         else:
-            Usuario.objects.create(nombre=nombre, password=password, admin=0)
+            u = Usuario.objects.create(nombre=nombre, password=password, admin=0)
+            _regalo_mensualidad(u)
             return redirect('login')
     return render(request, 'core/registro.html', {'error': error})

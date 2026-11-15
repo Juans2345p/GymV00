@@ -1,6 +1,8 @@
 import os
 import threading
 
+from django.utils import timezone
+
 _started = False
 _lock = threading.Lock()
 
@@ -11,6 +13,14 @@ class MqttAutoStartMiddleware:
 
     def __call__(self, request):
         global _started
+        # Activar zona horaria configurada
+        try:
+            from .models import MqttConfig
+            cfg = MqttConfig.objects.filter(pk=1).first()
+            if cfg and cfg.zona_horaria:
+                timezone.activate(cfg.zona_horaria)
+        except Exception:
+            pass
         if not _started:
             with _lock:
                 if not _started:
