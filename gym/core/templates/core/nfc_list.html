@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Tarjetas NFC</h1>
 <a class="btn btn-primary mb-3" href="{% url 'nfc_create' %}">Nueva tarjeta</a>
-<table class="table table-striped">
+<div class="table-responsive"><table class="table table-striped">
   <thead><tr><th>ID</th><th>UID</th><th></th></tr></thead>
   <tbody>
   {% for item in items %}
@@ -15,5 +15,5 @@
     <tr><td colspan="3">Sin tarjetas</td></tr>
   {% endfor %}
   </tbody>
-</table>
+</table></div>
 {% endblock %}

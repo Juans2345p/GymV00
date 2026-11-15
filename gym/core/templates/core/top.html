@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Top Rachas</h1>
 <p class="text-muted">Ranking publico por cantidad de rachas.</p>
-<table class="table table-striped">
+<div class="table-responsive"><table class="table table-striped">
   <thead><tr><th>#</th><th>Usuario</th><th>Rachas</th><th></th></tr></thead>
   <tbody>
   {% for u in ranking %}
@@ -16,5 +16,5 @@
     <tr><td colspan="4">Sin datos</td></tr>
   {% endfor %}
   </tbody>
-</table>
+</table></div>
 {% endblock %}

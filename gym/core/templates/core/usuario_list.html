@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Usuarios</h1>
 {% if request.session.is_admin %}<a class="btn btn-primary mb-3" href="{% url 'usuario_create' %}">Nuevo usuario</a>{% endif %}
-<table class="table table-striped">
+<div class="table-responsive"><table class="table table-striped">
   <thead><tr><th>ID</th><th>Nombre</th><th>Admin</th><th></th></tr></thead>
   <tbody>
   {% for item in items %}
@@ -20,5 +20,5 @@
     <tr><td colspan="4">Sin usuarios</td></tr>
   {% endfor %}
   </tbody>
-</table>
+</table></div>
 {% endblock %}

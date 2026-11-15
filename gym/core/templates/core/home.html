@@ -18,7 +18,7 @@
 {% if request.session.is_admin %}
 <h1>Usuarios del Gym</h1>
 <a class="btn btn-primary mb-3" href="{% url 'usuario_create' %}">Nuevo usuario</a>
-<table class="table table-striped">
+<div class="table-responsive"><table class="table table-striped">
   <thead><tr><th>ID</th><th>Nombre</th><th>Admin</th><th></th></tr></thead>
   <tbody>
   {% for u in usuarios %}
@@ -32,7 +32,7 @@
     <tr><td colspan="4">Sin usuarios</td></tr>
   {% endfor %}
   </tbody>
-</table>
+</table></div>
 {% else %}
 <h3>Tus ultimas rachas</h3>
 <ul>

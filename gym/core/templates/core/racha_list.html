@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Rachas</h1>
 {% if request.session.is_admin %}<a class="btn btn-primary mb-3" href="{% url 'racha_create' %}">Nueva racha</a>{% endif %}
-<table class="table table-striped">
+<div class="table-responsive"><table class="table table-striped">
   <thead><tr><th>ID</th><th>Usuario</th><th>Registro</th><th></th></tr></thead>
   <tbody>
   {% for item in items %}
@@ -16,5 +16,5 @@
     <tr><td colspan="4">Sin rachas</td></tr>
   {% endfor %}
   </tbody>
-</table>
+</table></div>
 {% endblock %}
