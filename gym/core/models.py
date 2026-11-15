@@ -10,7 +10,7 @@ class MqttConfig(models.Model):
     enabled = models.BooleanField(default=False)
     duplicar_racha = models.BooleanField(default=False, verbose_name='Permitir duplicar racha (varias por dia)')
     regalo_mensualidad = models.BooleanField(default=True, verbose_name='Dar 1 dia de mensualidad a nuevos usuarios')
-    zona_horaria = models.CharField(max_length=50, default='UTC', verbose_name='Zona horaria')
+    zona_horaria = models.CharField(max_length=50, default='America/Bogota', verbose_name='Zona horaria')
 
     class Meta:
         db_table = 'mqtt_config'
