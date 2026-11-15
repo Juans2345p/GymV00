@@ -7,6 +7,7 @@
 </head>
 <body class="container py-4">
   <nav class="mb-4">
+    <a class="btn btn-sm btn-outline-info" href="{% url 'top' %}">Top Rachas</a>
     {% if request.session.usuario_id %}
       <span class="me-2">Hola, {{ request.session.usuario_nombre|default:'usuario' }}</span>
       <a class="btn btn-sm btn-outline-primary" href="{% url 'home' %}">Inicio</a>

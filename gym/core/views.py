@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView
+from django.db.models import Count
 from .models import NfcCard, Usuario, Identificacion, Mensualidad, Racha, MqttConfig
 from .forms import (NfcCardForm, UsuarioForm, IdentificacionForm,
                     MensualidadForm, RachaForm, MqttConfigForm)
@@ -248,6 +249,12 @@ def login_view(request):
 def logout_view(request):
     request.session.flush()
     return redirect('login')
+
+
+def top_view(request):
+    from .models import Usuario, Racha
+    ranking = Usuario.objects.annotate(num_rachas=Count('rachas')).order_by('-num_rachas')[:20]
+    return render(request, 'core/top.html', {'ranking': ranking})
 
 
 def registro_view(request):
